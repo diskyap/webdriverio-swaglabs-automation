@@ -8,11 +8,6 @@ on:
       - master
       - develop
       - feature/**
-  pull_request:
-    types: [closed]
-    branches:
-      - master
-      - develop
 
 jobs:
   run-tests:

@@ -1,0 +1,47 @@
+# .github/workflows/ci.yml
+
+name: WebdriverIO E2E Tests
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/**
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+      - develop
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24.2.0'
+
+    - name: Install dependencies
+      run: npm ci # Lebih baik dari npm install untuk CI/CD
+
+    - name: Install Allure Commandline
+      run: npm install -g allure-commandline
+
+    - name: Run WebdriverIO tests
+      run: npx wdio run wdio.conf.js
+
+    - name: Generate Allure Report
+      if: always() # Selalu jalankan, bahkan jika test gagal
+      run: allure generate allure-results --clean -o allure-report
+
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report

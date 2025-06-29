@@ -8,6 +8,10 @@ class LoginPage extends Page {
     /**
      * define selectors using getter methods
      */
+    public get titlePage () {
+        return $('.login_logo');
+    }
+
     public get inputUsername () {
         return $('[data-test="username"]');
     }
@@ -18,6 +22,10 @@ class LoginPage extends Page {
 
     public get btnSubmit () {
         return $('[data-test="login-button"]');
+    }
+
+    public get errMessage () {
+        return $('[data-test="error"]');
     }
 
     /**
